@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Realtime Notebook</title>
+
+<style>
+body{
+font-family:Arial;
+padding:20px;
+}
+
+textarea{
+width:100%;
+height:400px;
+font-size:16px;
+}
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+</head>
+
+<body>
+
+<h2>Realtime Notebook</h2>
+
+<textarea id="editor"></textarea>
+
+<script>
+
+const firebaseConfig = {
+apiKey: "AIzaSyD7niBZQ_OtosJ79Ffam33TboXSjkP_4PI",
+authDomain: "realtime-notebook.firebaseapp.com",
+databaseURL: "https://realtime-notebook-default-rtdb.firebaseio.com/",
+projectId: "realtime-notebook",
+storageBucket: "realtime-notebook.firebasestorage.app",
+messagingSenderId: "169901652490",
+appId: "1:169901652490:web:c4580a4575c0720d63bdf3"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+let db = firebase.database().ref("notebook");
+let editor = document.getElementById("editor");
+
+// save text
+editor.onkeyup = function(){
+db.set(editor.value);
+};
+
+// load text
+db.on("value", function(s){
+if(s.val()){
+editor.value = s.val();
+}
+});
+
+</script>
+
+</body>
+</html>
